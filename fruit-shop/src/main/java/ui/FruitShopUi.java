@@ -25,7 +25,7 @@ public class FruitShopUi {
   
   public Catalogue getCatalogue () {
     return catalogue;
-  }
+  } 
   
   
 
