@@ -8,7 +8,7 @@ public class Product {
   private String name;
   private int quantity;
   private float price;
-  private int type;
+  private String type;
   
   public Product () {
       
@@ -51,11 +51,11 @@ public class Product {
   }
 
  
-  public void setType (int newVar) {
+  public void setType (String newVar) {
     type = newVar;
   }
 
-  public int getType () {
+  public String getType () {
     return type;
   }
 
