@@ -5,6 +5,10 @@
 	<groupId>com.unimol</groupId>
 	<artifactId>fruit-shop</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -21,11 +25,14 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
+
 				</configuration>
+				<version>3.6.0</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.2.0</version>
 				<configuration>
 					<archive>
 						<manifest>
