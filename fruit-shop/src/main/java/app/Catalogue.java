@@ -58,10 +58,11 @@ public class Catalogue {
     }
 
     public float sellProduct(int productId) {
-	if (search(productId) != -1) {
-	    return this.productList.get(productId).getPrice() * this.productList.get(productId).getQuantity();
+	int i = search(productId);
+	if (i != -1) {
+	    return this.productList.get(i).getPrice() * this.productList.get(i).getQuantity();
 	} else {
-	    return 0;
+	    return -1;
 	}
 
     }

@@ -34,8 +34,8 @@ public class FruitShopUi {
 	    System.out.println("2. modifica slot");
 	    System.out.println("3. visualizza elenco slot");
 	    System.out.println("4. cancella slot ");
-	    // System.out.println("5. vendi slot");
-	    // System.out.println("6. visualzza saldo");
+	    System.out.println("5. vendi slot");
+	    System.out.println("6. visualzza saldo");
 	    System.out.println("0. esci");
 	    System.out.println(" --------------------------------");
 
@@ -60,6 +60,14 @@ public class FruitShopUi {
 
 	    case 4:
 		deleteProduct();
+		break;
+
+	    case 5:
+		sellProduct();
+		break;
+
+	    case 6:
+		getMoney_earned();
 		break;
 
 	    case 0:
@@ -209,16 +217,23 @@ public class FruitShopUi {
 	    System.out.println("Input errato inserire numero");
 	    input.next();
 	}
-	this.catalogue.setMoney_earned(this.catalogue.getMoney_earned() + this.catalogue.sellProduct(input.nextInt()));
+	answer = input.nextInt();
+
+	if (this.catalogue.sellProduct(answer) == -1) {
+	    System.out.println("slot  nn esistente");
+	} else {
+	    this.catalogue.setMoney_earned(this.catalogue.getMoney_earned() + this.catalogue.sellProduct(answer));
+	    System.out.println(" slot venduto con successo");
+	}
 
     }
 
     public void getMoney_earned() {
 	System.out.println(" SALDO ");
 	System.out.println(" ");
-	System.out.println(this.catalogue.getMoney_earned() + "euro");
+	System.out.println(this.catalogue.getMoney_earned() + " euro ");
 	System.out.println("IMPOSTE STATO");
-	System.out.println(this.catalogue.getMoney_earned() * this.catalogue.getIva() + "euro");
+	System.out.println(this.catalogue.getMoney_earned() * this.catalogue.getIva() + " euro ");
     }
 
 }
