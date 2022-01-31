@@ -21,13 +21,25 @@ public class Catalogue {
 	return productList;
     }
 
-    public void insertProduct() {
+    public int insertProduct(Product product) {
+	for (int i = 0; i < this.productList.size(); i++) {
+
+	    if (product.getProductId() == this.productList.get(i).getProductId())
+		return 0;
+
+	}
+	this.productList.add(product);
+	return 1;
+
     }
 
-    public void deleteProduct(int productId) {
-    }
-
-    public void showProducts() {
+    public int deleteProduct(int productId) {
+	if (this.productList.get(productId) == null) {
+	    return 0;
+	} else {
+	    this.productList.remove(productId);
+	    return 1;
+	}
     }
 
     public void modifyProduct(int productId) {

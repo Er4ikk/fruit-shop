@@ -9,6 +9,8 @@ public class FruitShopUi {
 
     private Catalogue catalogue;
     public Scanner input;
+    public int answer;
+    public int response;
 
     public FruitShopUi() {
 	this.catalogue = new Catalogue();
@@ -31,8 +33,8 @@ public class FruitShopUi {
 	    System.out.println("3. visualizza elenco slot");
 	    System.out.println("4. cancella slot ");
 	    System.out.println("0. esci");
-
-	    switch (input.nextInt()) {
+	    answer = input.nextInt();
+	    switch (answer) {
 	    case 1:
 		insertProduct();
 		break;
@@ -50,21 +52,21 @@ public class FruitShopUi {
 		break;
 
 	    case 0:
-
+		System.out.println("uscita in corso.. ");
 		break;
 
 	    default:
 		System.out.println("Opzione non valida");
 
 	    }
-	} while (input.nextInt() != 0);
+	} while (answer != 0);
 
 	System.out.println("Arrivederci");
 
     }
 
     public void insertProduct() {
-	Product product = this.getCatalogue().getProduct();
+	Product product = new Product();
 	System.out.println("INSERIMENTO NUOVO SLOT PRODOTTI");
 	System.out.println("Inserire id prodotto");
 	product.setProductId(input.nextInt());
@@ -77,13 +79,24 @@ public class FruitShopUi {
 	System.out.println("Inserire tipo prodotto");
 	product.setType(input.next());
 
-	this.catalogue.getProductList().add(product);
+	response = this.catalogue.insertProduct(product);
+	if (response == 1) {
+	    System.out.println("Inserimento avvenuto con successo");
+	} else {
+	    System.out.println("Inserimento fallito id già presente");
+	}
     }
 
     public void deleteProduct() {
 	System.out.println("ELIMINA SLOT PRODOTTI");
 	System.out.println("Inserire id lotto da eliminare :");
-	this.catalogue.deleteProduct(input.nextInt());
+	response = this.catalogue.deleteProduct(input.nextInt());
+
+	if (response == 1) {
+	    System.out.println("Cancellazione avvenuta con successo");
+	} else {
+	    System.out.println("Cancellazione fallita elemento non esistente");
+	}
     }
 
     public void showProducts() {
