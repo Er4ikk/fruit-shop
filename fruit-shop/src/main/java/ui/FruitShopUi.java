@@ -26,12 +26,40 @@ public class FruitShopUi {
     public void mainLoopUi() {
 	do {
 	    System.out.println(" MENÙ PRINCIPALE NEGOZIO");
-	    System.out.println("1. aggiungi prodotto");
-	    System.out.println();
-	    System.out.println();
-	    System.out.println();
+	    System.out.println("1. aggiungi slot");
+	    System.out.println("2. modifica slot");
+	    System.out.println("3. visualizza elenco slot");
+	    System.out.println("4. cancella slot ");
+	    System.out.println("0. esci");
 
+	    switch (input.nextInt()) {
+	    case 1:
+		insertProduct();
+		break;
+
+	    case 2:
+		modifyProduct();
+		break;
+
+	    case 3:
+		showProducts();
+		break;
+
+	    case 4:
+		deleteProduct();
+		break;
+
+	    case 0:
+
+		break;
+
+	    default:
+		System.out.println("Opzione non valida");
+
+	    }
 	} while (input.nextInt() != 0);
+
+	System.out.println("Arrivederci");
 
     }
 
@@ -71,7 +99,7 @@ public class FruitShopUi {
 
     }
 
-    public void modifyProduct(int productId) {
+    public void modifyProduct() {
 	System.out.println("MODIFICA SLOT PRODOTTI");
 
     }
