@@ -32,6 +32,8 @@ public class FruitShopUi {
 	    System.out.println("2. modifica slot");
 	    System.out.println("3. visualizza elenco slot");
 	    System.out.println("4. cancella slot ");
+	    // System.out.println("5. vendi slot");
+	    // System.out.println("6. visualzza saldo");
 	    System.out.println("0. esci");
 	    answer = input.nextInt();
 	    switch (answer) {
@@ -90,7 +92,8 @@ public class FruitShopUi {
     public void deleteProduct() {
 	System.out.println("ELIMINA SLOT PRODOTTI");
 	System.out.println("Inserire id lotto da eliminare :");
-	response = this.catalogue.deleteProduct(input.nextInt());
+	answer = input.nextInt();
+	response = this.catalogue.deleteProduct(answer);
 
 	if (response == 1) {
 	    System.out.println("Cancellazione avvenuta con successo");

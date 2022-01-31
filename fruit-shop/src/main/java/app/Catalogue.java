@@ -34,12 +34,16 @@ public class Catalogue {
     }
 
     public int deleteProduct(int productId) {
-	if (this.productList.get(productId) == null) {
-	    return 0;
-	} else {
-	    this.productList.remove(productId);
-	    return 1;
+
+	for (int i = 0; i < this.productList.size(); i++) {
+
+	    if (this.productList.get(i).getProductId() == productId) {
+		this.productList.remove(i);
+		return 1;
+	    }
+
 	}
+	return 0;
     }
 
     public void modifyProduct(int productId) {
