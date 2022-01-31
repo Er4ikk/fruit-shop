@@ -7,6 +7,7 @@ public class Catalogue {
     private Product product = new Product();
     private ArrayList<Product> productList = new ArrayList<Product>();
     private float money_earned;
+    public int searchValue;
     private double iva = 0.22;
 
     public Catalogue() {
@@ -22,35 +23,47 @@ public class Catalogue {
     }
 
     public int insertProduct(Product product) {
-	for (int i = 0; i < this.productList.size(); i++) {
+	searchValue = search(product.getProductId());
 
-	    if (product.getProductId() == this.productList.get(i).getProductId())
-		return 0;
-
+	if (searchValue == -1) {
+	    this.productList.add(product);
+	    return 1;
 	}
-	this.productList.add(product);
-	return 1;
+	return 0;
 
     }
 
     public int deleteProduct(int productId) {
-
-	for (int i = 0; i < this.productList.size(); i++) {
-
-	    if (this.productList.get(i).getProductId() == productId) {
-		this.productList.remove(i);
-		return 1;
-	    }
-
+	searchValue = search(productId);
+	if (searchValue != -1) {
+	    this.productList.remove(searchValue);
+	    return 1;
 	}
 	return 0;
     }
 
-    public void modifyProduct(int productId) {
+    /*
+     * public void modifyProduct(int productId) { }
+     */
+
+    public int search(int productId) {
+	for (int i = 0; i < this.productList.size(); i++) {
+
+	    if (this.productList.get(i).getProductId() == productId) {
+		return i;
+	    }
+
+	}
+	return -1;
     }
 
     public float sellProduct(int productId) {
-	return this.product.getPrice();
+	if (search(productId) != -1) {
+	    return this.productList.get(productId).getPrice() * this.productList.get(productId).getQuantity();
+	} else {
+	    return 0;
+	}
+
     }
 
     public float getMoney_earned() {

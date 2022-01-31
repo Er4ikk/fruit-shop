@@ -26,7 +26,9 @@ public class FruitShopUi {
     }
 
     public void mainLoopUi() {
+
 	do {
+	    System.out.println(" -------------------------------- ");
 	    System.out.println(" MENÙ PRINCIPALE NEGOZIO");
 	    System.out.println("1. aggiungi slot");
 	    System.out.println("2. modifica slot");
@@ -35,6 +37,7 @@ public class FruitShopUi {
 	    // System.out.println("5. vendi slot");
 	    // System.out.println("6. visualzza saldo");
 	    System.out.println("0. esci");
+	    System.out.println(" --------------------------------");
 	    answer = input.nextInt();
 	    switch (answer) {
 	    case 1:
@@ -68,8 +71,10 @@ public class FruitShopUi {
     }
 
     public void insertProduct() {
+	System.out.println(" ");
 	Product product = new Product();
 	System.out.println("INSERIMENTO NUOVO SLOT PRODOTTI");
+	System.out.println(" ");
 	System.out.println("Inserire id prodotto");
 	product.setProductId(input.nextInt());
 	System.out.println("Inserire nome prodotto");
@@ -87,24 +92,30 @@ public class FruitShopUi {
 	} else {
 	    System.out.println("Inserimento fallito id già presente");
 	}
+	System.out.println(" ");
     }
 
     public void deleteProduct() {
+	System.out.println(" ");
 	System.out.println("ELIMINA SLOT PRODOTTI");
+	System.out.println(" ");
 	System.out.println("Inserire id lotto da eliminare :");
-	answer = input.nextInt();
-	response = this.catalogue.deleteProduct(answer);
+
+	response = this.catalogue.deleteProduct(input.nextInt());
 
 	if (response == 1) {
 	    System.out.println("Cancellazione avvenuta con successo");
 	} else {
 	    System.out.println("Cancellazione fallita elemento non esistente");
 	}
+	System.out.println(" ");
     }
 
     public void showProducts() {
+	System.out.println(" ");
 	System.out.println(" ELENCO LOTTI ");
-	System.out.println("N° " + "NOME " + "PREZZO " + "ID " + "QUANTITÀ " + "TIPO ");
+	System.out.println(" ");
+	System.out.println("N° " + "NOME " + "PREZZO " + "ID " + "QTN " + "TIPO ");
 	for (int i = 0; i < this.catalogue.getProductList().size(); i++) {
 	    System.out.println(i + 1 + ") " + this.catalogue.getProductList().get(i).getName() + " "
 		    + this.catalogue.getProductList().get(i).getPrice() + " "
@@ -112,16 +123,36 @@ public class FruitShopUi {
 		    + this.catalogue.getProductList().get(i).getQuantity() + " "
 		    + this.catalogue.getProductList().get(i).getType());
 	}
-
+	System.out.println(" ");
     }
 
     public void modifyProduct() {
+	System.out.println(" ");
 	System.out.println("MODIFICA SLOT PRODOTTI");
-
+	System.out.println(" ");
+	System.out.println("Inserire id slot:");
+	answer = input.nextInt();
+	int index = this.catalogue.search(answer);
+	if (index == -1) {
+	    System.out.println("Elemento nn esistente");
+	} else {
+	    System.out.println("Inserire id prodotto");
+	    this.catalogue.getProductList().get(index).setProductId(input.nextInt());
+	    System.out.println("Inserire nome prodotto");
+	    this.catalogue.getProductList().get(index).setName(input.next());
+	    System.out.println("Inserire quantità prodotto");
+	    this.catalogue.getProductList().get(index).setQuantity(input.nextInt());
+	    System.out.println("Inserire prezzo prodotto");
+	    this.catalogue.getProductList().get(index).setPrice(input.nextFloat());
+	    System.out.println("Inserire tipo prodotto");
+	    this.catalogue.getProductList().get(index).setType(input.next());
+	}
+	System.out.println(" ");
     }
 
     public void sellProduct() {
 	System.out.println("VENDITA SLOT ");
+	System.out.println(" ");
 	System.out.println("Inserire  id slot da vendere");
 	this.catalogue.setMoney_earned(this.catalogue.getMoney_earned() + this.catalogue.sellProduct(input.nextInt()));
 
@@ -129,6 +160,7 @@ public class FruitShopUi {
 
     public void getMoney_earned() {
 	System.out.println(" SALDO ");
+	System.out.println(" ");
 	System.out.println(this.catalogue.getMoney_earned() + "euro");
 	System.out.println("IMPOSTE STATO");
 	System.out.println(this.catalogue.getMoney_earned() * this.catalogue.getIva() + "euro");
