@@ -8,7 +8,7 @@ basic app that manages a small fruit shop:
 -sell slot/s
 -show current sales and the iva
 
-#docker
+# docker
 for running the app we first must install docker
 
 command to build the image (current one is -> relateiq/oracle-java8)
@@ -24,6 +24,6 @@ command to attach container(press some numbers after the command to view the ui)
 docker attach <container_name>
 
 
-#docker-compose
+# docker-compose
 command for running the app:
 docker-compose run --rm <service_name>

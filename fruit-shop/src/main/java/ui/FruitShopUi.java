@@ -1,6 +1,9 @@
 package ui;
 
+import java.util.Iterator;
 import java.util.Scanner;
+
+import org.bson.Document;
 
 import app.Catalogue;
 import app.Product;
@@ -11,6 +14,8 @@ public class FruitShopUi {
     public Scanner input;
     public int answer;
     public int response;
+    public Iterator<Document> dbElements;
+    public Document element;
 
     public FruitShopUi() {
 	this.catalogue = new Catalogue();
@@ -34,8 +39,8 @@ public class FruitShopUi {
 	    System.out.println("2. modifica slot");
 	    System.out.println("3. visualizza elenco slot");
 	    System.out.println("4. cancella slot ");
-	    System.out.println("5. vendi slot");
-	    System.out.println("6. visualzza saldo");
+	    // System.out.println("5. vendi slot");
+	    // System.out.println("6. visualzza saldo");
 	    System.out.println("0. esci");
 	    System.out.println(" --------------------------------");
 
@@ -63,11 +68,11 @@ public class FruitShopUi {
 		break;
 
 	    case 5:
-		sellProduct();
+		// sellProduct();
 		break;
 
 	    case 6:
-		getMoney_earned();
+		// getMoney_earned();
 		break;
 
 	    case 0:
@@ -147,18 +152,23 @@ public class FruitShopUi {
     }
 
     public void showProducts() {
+	int i = 0;
 	System.out.println(" ");
 	System.out.println(" ELENCO LOTTI ");
 	System.out.println(" ");
-	System.out.println("N° " + "NOME " + "PREZZO " + "ID " + "QTN " + "TIPO ");
-	for (int i = 0; i < this.catalogue.getProductList().size(); i++) {
-	    System.out.println(i + 1 + ") " + this.catalogue.getProductList().get(i).getName() + " "
-		    + this.catalogue.getProductList().get(i).getPrice() + " "
-		    + this.catalogue.getProductList().get(i).getProductId() + " "
-		    + this.catalogue.getProductList().get(i).getQuantity() + " "
-		    + this.catalogue.getProductList().get(i).getType());
+
+	dbElements = this.catalogue.showElements();
+	while (dbElements.hasNext()) {
+	    element = dbElements.next();
+	    System.out.println(i + 1 + " ID: " + element.get("id"));
+	    System.out.println(" NOME: " + element.get("name"));
+	    System.out.println(" PREZZ0: " + element.get("price"));
+	    System.out.println(" QUANTITÀ: " + element.get("quantity"));
+	    System.out.println(" TIPO: " + element.get("type"));
+	    System.out.println(" ");
+	    i++;
 	}
-	System.out.println(" ");
+
     }
 
     public void modifyProduct() {
@@ -172,38 +182,35 @@ public class FruitShopUi {
 	    input.next();
 	}
 
-	answer = input.nextInt();
-	int index = this.catalogue.search(answer);
-	if (index == -1) {
-	    System.out.println("Elemento nn esistente");
+	int index = input.nextInt();
+	int exit;
+
+	System.out.println("Inserire nome prodotto");
+	String name = input.next();
+
+	System.out.println("Inserire quantità prodotto");
+	while (!input.hasNextInt()) {
+	    System.out.println("Input errato inserire numero");
+	    input.next();
+	}
+	int quantity = input.nextInt();
+
+	System.out.println("Inserire prezzo prodotto");
+	while (!input.hasNextFloat()) {
+	    System.out.println("Input errato inserire numero");
+	    input.next();
+	}
+	float price = input.nextFloat();
+
+	System.out.println("Inserire tipo prodotto");
+	String type = input.next();
+
+	exit = this.catalogue.modifyProduct(index, name, quantity, price, type);
+
+	if (exit == 1) {
+	    System.out.println("modifica effettuata con successo");
 	} else {
-
-	    System.out.println("Inserire id prodotto");
-	    while (!input.hasNextInt()) {
-		System.out.println("Input errato inserire numero");
-		input.next();
-	    }
-	    this.catalogue.getProductList().get(index).setProductId(input.nextInt());
-
-	    System.out.println("Inserire nome prodotto");
-	    this.catalogue.getProductList().get(index).setName(input.next());
-
-	    System.out.println("Inserire quantità prodotto");
-	    while (!input.hasNextInt()) {
-		System.out.println("Input errato inserire numero");
-		input.next();
-	    }
-	    this.catalogue.getProductList().get(index).setQuantity(input.nextInt());
-
-	    System.out.println("Inserire prezzo prodotto");
-	    while (!input.hasNextFloat()) {
-		System.out.println("Input errato inserire numero");
-		input.next();
-	    }
-	    this.catalogue.getProductList().get(index).setPrice(input.nextFloat());
-
-	    System.out.println("Inserire tipo prodotto");
-	    this.catalogue.getProductList().get(index).setType(input.next());
+	    System.out.println("modifica fallita elemento non trovato");
 	}
 	System.out.println(" ");
     }

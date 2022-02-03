@@ -1,6 +1,18 @@
 package app;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+
+import org.bson.Document;
+
+import com.mongodb.MongoClient;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
+import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.UpdateResult;
 
 public class Catalogue {
 
@@ -9,10 +21,19 @@ public class Catalogue {
     private float money_earned;
     public int searchValue;
     private double iva = 0.22;
+    MongoClient mongoClient;
+    MongoDatabase db;
+    MongoCollection<Document> collection;
 
     public Catalogue() {
-
+	databaseInitConnection();
     };
+
+    public void databaseInitConnection() {
+	mongoClient = new MongoClient("localhost", 27017);
+	db = mongoClient.getDatabase("fruit-shop");
+	collection = db.getCollection("products");
+    }
 
     public void setProductList(ArrayList<Product> newVar) {
 	productList = newVar;
@@ -26,6 +47,13 @@ public class Catalogue {
 	searchValue = search(product.getProductId());
 
 	if (searchValue == -1) {
+
+	    Document doc = new Document("id", product.getProductId());
+	    doc.append("name", product.getName());
+	    doc.append("price", product.getPrice());
+	    doc.append("quantity", product.getQuantity());
+	    doc.append("type", product.getType());
+	    collection.insertOne(doc);
 	    this.productList.add(product);
 	    return 1;
 	}
@@ -34,19 +62,21 @@ public class Catalogue {
     }
 
     public int deleteProduct(int productId) {
-	searchValue = search(productId);
-	if (searchValue != -1) {
-	    this.productList.remove(searchValue);
-	    return 1;
-	}
-	return 0;
+	DeleteResult result = collection.deleteOne(Filters.eq("id", productId));
+	return (int) result.getDeletedCount();
     }
 
-    /*
-     * public void modifyProduct(int productId) { }
-     */
+    public int modifyProduct(int productId, String name, int quantity, float price, String type) {
+	System.out.println(productId);
+	UpdateResult result = collection.updateOne(Filters.eq("id", productId),
+		Updates.combine(Updates.set("name", name), Updates.set("quantity", quantity),
+			Updates.set("price", price), Updates.set("type", type)));
+	return (int) result.getModifiedCount();
+	// ?
+    }
 
     public int search(int productId) {
+
 	for (int i = 0; i < this.productList.size(); i++) {
 
 	    if (this.productList.get(i).getProductId() == productId) {
@@ -64,6 +94,17 @@ public class Catalogue {
 	} else {
 	    return -1;
 	}
+
+    }
+
+    public Iterator<Document> showElements() {
+
+	FindIterable<Document> iterDoc = collection.find();
+
+	System.out.println("Listing All Mongo Documents");
+
+	Iterator<Document> it = iterDoc.iterator();
+	return it;
 
     }
 
