@@ -32,8 +32,6 @@
                 <filter>
                   <artifact>junit:junit</artifact>
                   <includes>
-                    <include>junit/framework/**</include>
-                    <include>org/junit/**</include>
                     <include>com/mongodb/MongoClient</include>
                   </includes>
                   <excludes>

@@ -72,6 +72,8 @@
 			
 		</dependency>
 
+
+
 	</dependencies>
 	<build>
 		<plugins>
@@ -106,17 +108,13 @@
 								<filter>
 									<artifact>junit:junit</artifact>
 									<includes>
-										<include>junit/framework/**</include>
-										<include>org/junit/**</include>
 										<include>com/mongodb/MongoClient</include>
-										`
 									</includes>
 									<excludes>
 										<exclude>org/junit/experimental/**</exclude>
 										<exclude>org/junit/runners/**</exclude>
 									</excludes>
 								</filter>
-
 							</filters>
 						</configuration>
 					</execution>
