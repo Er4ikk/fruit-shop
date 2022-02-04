@@ -41,11 +41,35 @@
 			<scope>test</scope>
 		</dependency>
 
-		
+
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-shade-plugin</artifactId>
+			<version>3.2.0</version>
+		</dependency>
+
+
+
 		<dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongo-java-driver</artifactId>
-			<version>3.12.7</version>
+			<version>3.12.10</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.30</version>
+		</dependency>
+
+
+
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.30</version>
+			
 		</dependency>
 
 	</dependencies>
@@ -67,7 +91,37 @@
 				<version>3.6.0</version>
 			</plugin>
 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.2.4</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<filters>
+								<filter>
+									<artifact>junit:junit</artifact>
+									<includes>
+										<include>junit/framework/**</include>
+										<include>org/junit/**</include>
+										<include>com/mongodb/MongoClient</include>
+										`
+									</includes>
+									<excludes>
+										<exclude>org/junit/experimental/**</exclude>
+										<exclude>org/junit/runners/**</exclude>
+									</excludes>
+								</filter>
 
+							</filters>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

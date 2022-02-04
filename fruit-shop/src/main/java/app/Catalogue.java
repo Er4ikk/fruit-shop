@@ -8,6 +8,7 @@ import org.bson.Document;
 import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
@@ -19,11 +20,15 @@ public class Catalogue {
     private Product product = new Product();
     private ArrayList<Product> productList = new ArrayList<Product>();
     private float money_earned;
+    double totalEarns;
     public int searchValue;
     private double iva = 0.22;
     MongoClient mongoClient;
     MongoDatabase db;
     MongoCollection<Document> collection;
+    Document doc;
+    MongoCollection<Document> transactions;
+    MongoCursor<Document> results;
 
     public Catalogue() {
 	databaseInitConnection();
@@ -33,6 +38,7 @@ public class Catalogue {
 	mongoClient = new MongoClient("localhost", 27017);
 	db = mongoClient.getDatabase("fruit-shop");
 	collection = db.getCollection("products");
+	transactions = db.getCollection("transactions");
     }
 
     public void setProductList(ArrayList<Product> newVar) {
@@ -44,20 +50,15 @@ public class Catalogue {
     }
 
     public int insertProduct(Product product) {
-	searchValue = search(product.getProductId());
 
-	if (searchValue == -1) {
+	doc = new Document("id", product.getProductId());
+	doc.append("name", product.getName());
+	doc.append("price", product.getPrice());
+	doc.append("quantity", product.getQuantity());
+	doc.append("type", product.getType());
+	collection.insertOne(doc);
 
-	    Document doc = new Document("id", product.getProductId());
-	    doc.append("name", product.getName());
-	    doc.append("price", product.getPrice());
-	    doc.append("quantity", product.getQuantity());
-	    doc.append("type", product.getType());
-	    collection.insertOne(doc);
-	    this.productList.add(product);
-	    return 1;
-	}
-	return 0;
+	return 1;
 
     }
 
@@ -67,7 +68,7 @@ public class Catalogue {
     }
 
     public int modifyProduct(int productId, String name, int quantity, float price, String type) {
-	System.out.println(productId);
+
 	UpdateResult result = collection.updateOne(Filters.eq("id", productId),
 		Updates.combine(Updates.set("name", name), Updates.set("quantity", quantity),
 			Updates.set("price", price), Updates.set("type", type)));
@@ -88,12 +89,21 @@ public class Catalogue {
     }
 
     public float sellProduct(int productId) {
-	int i = search(productId);
-	if (i != -1) {
-	    return this.productList.get(i).getPrice() * this.productList.get(i).getQuantity();
-	} else {
-	    return -1;
+
+	results = collection.find(Filters.eq("id", productId)).iterator();
+	if (results.hasNext() == false)
+	    return 0;
+
+	while (results.hasNext()) {
+	    doc = results.next();
+
 	}
+	float value = (float) (doc.getInteger("quantity") * doc.getDouble("price"));
+	setMoney_earned(value);
+	Document transaction = new Document("value", value);
+	transactions.insertOne(transaction);
+	deleteProduct(productId);
+	return getMoney_earned();
 
     }
 
@@ -110,6 +120,15 @@ public class Catalogue {
 
     public float getMoney_earned() {
 	return money_earned;
+    }
+
+    public double getTotalSell() {
+	results = transactions.find().iterator();
+	this.totalEarns = 0;
+	while (results.hasNext()) {
+	    this.totalEarns += (results.next().getDouble("value"));
+	}
+	return this.totalEarns;
     }
 
     public void setMoney_earned(float money_earned) {
