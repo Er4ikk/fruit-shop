@@ -5,6 +5,8 @@ services:
   container_name: mongodb2
   ports:
    - 27017:27017
+  volumes:
+   - /var/lib/data
 
  main:
   image: fruit-shop-final
