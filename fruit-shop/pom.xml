@@ -69,7 +69,7 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
 			<version>1.7.30</version>
-			
+
 		</dependency>
 
 
@@ -108,6 +108,8 @@
 								<filter>
 									<artifact>junit:junit</artifact>
 									<includes>
+										<include>junit/framework/**</include>
+										<include>org/junit/**</include>
 										<include>com/mongodb/MongoClient</include>
 									</includes>
 									<excludes>

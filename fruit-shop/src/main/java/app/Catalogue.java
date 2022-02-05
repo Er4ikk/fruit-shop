@@ -17,6 +17,7 @@ import com.mongodb.client.result.UpdateResult;
 
 public class Catalogue {
 
+    private static final String MONGO_HOST = "mongodb";
     private Product product = new Product();
     private ArrayList<Product> productList = new ArrayList<Product>();
     private float money_earned;
@@ -35,7 +36,8 @@ public class Catalogue {
     };
 
     public void databaseInitConnection() {
-	mongoClient = new MongoClient("localhost", 27017);
+	// if you want to test in local use "localhost"
+	mongoClient = new MongoClient(MONGO_HOST, 27017);
 	db = mongoClient.getDatabase("fruit-shop");
 	collection = db.getCollection("products");
 	transactions = db.getCollection("transactions");
@@ -110,8 +112,6 @@ public class Catalogue {
     public Iterator<Document> showElements() {
 
 	FindIterable<Document> iterDoc = collection.find();
-
-	System.out.println("Listing All Mongo Documents");
 
 	Iterator<Document> it = iterDoc.iterator();
 	return it;

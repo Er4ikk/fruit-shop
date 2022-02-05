@@ -5,4 +5,5 @@ COPY pom.xml /com/app/pom.xml
 COPY src /com/app/src
 WORKDIR /com/app
 RUN mvn  package
+EXPOSE 8080
 CMD ["java","-jar","target/fruit-shop-0.0.1-SNAPSHOT.jar"]
