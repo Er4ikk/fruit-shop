@@ -12,11 +12,10 @@ basic app that manages a small fruit shop:
 for running the app we first must install docker
 
 command to build the image (current one is -> relateiq/oracle-java8)
-docker build -t <image_tag> .
+docker build -t fruit-shop-final .
 
 command to run the image (-it is for interactive shell)
-docker run --name <container_name> -it <image_name>
-
+docker run -it -p 8080:8080 --name <container_name>  fruit-shop-final
 commando to start the container
 docker start <container_name>
 
@@ -25,5 +24,5 @@ docker attach <container_name>
 
 
 # docker-compose
-command for running the app:
-docker-compose run --rm <service_name>
+docker-compose up
+(in new terminal)docker attach <container_name>
